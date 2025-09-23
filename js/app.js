@@ -1,7 +1,7 @@
 class AlumniMatch {
     constructor() {
         this.currentPage = 1;
-        this.totalPages = 5;
+        this.totalPages = 4;
         this.isTransitioning = false;
         this.touchStartX = 0;
         this.touchStartY = 0;
@@ -254,12 +254,9 @@ class AlumniMatch {
                 this.animateMatch();
                 break;
             case 3:
-                this.animateCredentials();
-                break;
-            case 4:
                 this.animateVotePrompt();
                 break;
-            case 5:
+            case 4:
                 this.animateSharePage();
                 break;
         }
@@ -293,15 +290,6 @@ class AlumniMatch {
         });
     }
 
-    animateCredentials() {
-        const credentials = document.querySelectorAll('.credential-item');
-        credentials.forEach((item, index) => {
-            setTimeout(() => {
-                item.style.opacity = '1';
-                item.style.transform = 'translateY(0)';
-            }, index * 200);
-        });
-    }
 
     animateVotePrompt() {
         const voteButtons = document.querySelectorAll('.vote-button');
@@ -386,7 +374,7 @@ class AlumniMatch {
         }
 
         setTimeout(() => {
-            this.goToPage(5);
+            this.goToPage(4);
         }, 500);
     }
 

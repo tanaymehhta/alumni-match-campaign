@@ -156,13 +156,264 @@ html, body {
 
 .name-title {
     font-family: 'Georgia', serif;
-    font-size: clamp(3rem, 8vw, 5rem);
+    font-size: clamp(1.8rem, 5vw, 2.8rem);
     font-weight: 400;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.05em;
     margin: 0 0 1.5rem 0;
+    line-height: 1.3;
     color: #2c2c2c;
     opacity: 0;
     animation: slideUpFade 0.8s ease-out 0.4s forwards;
+}
+
+.campaign-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    width: 100%;
+}
+
+.greeting {
+    font-family: 'Georgia', serif;
+    font-size: 1.2rem;
+    font-style: italic;
+    color: #666;
+    margin-bottom: 1rem;
+    opacity: 0;
+    animation: slideUpFade 0.8s ease-out 0.2s forwards;
+}
+
+.name-title-inline {
+    font-family: 'Georgia', serif;
+    font-size: clamp(1.2rem, 3.5vw, 2rem);
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    margin: 0.5rem 0 1.5rem 0;
+    line-height: 1.3;
+    color: #2c2c2c;
+    opacity: 0;
+    animation: slideUpFade 0.8s ease-out 0.4s forwards;
+    white-space: normal;
+    overflow: visible;
+}
+
+.highlight-name {
+    font-weight: 700;
+    font-size: 1.3em;
+    color: #ff6b6b;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+.highlight-position {
+    font-weight: 700;
+    font-size: 1.3em;
+    color: #4ecdc4;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+/* Magazine Container Centered */
+.magazine-container-centered {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem 2rem;
+    text-align: center;
+    min-height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 2rem;
+    padding-top: 2rem;
+}
+
+/* Campaign Photos Section */
+.campaign-photos-main {
+    opacity: 1;
+    animation: slideUpFade 0.8s ease-out 0.6s forwards;
+}
+
+.campaign-photo-container {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.campaign-photo-1,
+.campaign-photo-2 {
+    position: relative !important;
+    width: 250px;
+    height: 300px;
+    background: white;
+    padding: 15px 15px 40px 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+}
+
+.campaign-photo-1 {
+    transform: rotate(-2deg);
+}
+
+.campaign-photo-2 {
+    transform: rotate(3deg);
+}
+
+.campaign-photo-1:hover,
+.campaign-photo-2:hover {
+    transform: rotate(0deg) scale(1.05);
+    z-index: 10;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+}
+
+.campaign-photo-1 img,
+.campaign-photo-2 img {
+    width: 100%;
+    height: 260px;
+    object-fit: cover;
+    display: block;
+}
+
+/* Campaign Text Blocks */
+.campaign-text-blocks {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    max-width: 700px;
+    width: 100%;
+}
+
+.text-block {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    flex: 1;
+    min-width: 280px;
+    max-width: 320px;
+    opacity: 0;
+    animation: slideUpFade 0.8s ease-out 0.8s forwards;
+}
+
+.block-text {
+    font-family: 'Georgia', serif;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #444;
+    margin: 0;
+    text-align: left;
+}
+
+/* Video Button */
+.video-button-container {
+    margin-top: 1rem;
+    opacity: 0;
+    animation: slideUpFade 0.8s ease-out 1s forwards;
+}
+
+.video-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: linear-gradient(135deg, #ff6b6b, #ffa726);
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    text-decoration: none;
+    font-family: 'Georgia', serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    box-shadow: 0 6px 20px rgba(255, 107, 107, 0.3);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.video-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+    background: linear-gradient(135deg, #ff5252, #ff9800);
+}
+
+.video-icon {
+    font-size: 1.2rem;
+    margin-left: 0.25rem;
+}
+
+.video-text {
+    white-space: nowrap;
+}
+
+/* Things I Love Section - Compact */
+.things-section-compact {
+    max-width: 600px;
+    width: 100%;
+    margin: 1rem 0;
+    opacity: 0;
+    animation: slideUpFade 0.8s ease-out 0.9s forwards;
+}
+
+.things-section-compact .things-title {
+    font-family: 'Georgia', serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #2c3e50;
+    position: relative;
+}
+
+.things-section-compact .things-title::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: #ff6b6b;
+}
+
+.things-section-compact .things-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+
+.things-section-compact .thing-item {
+    display: flex;
+    align-items: center;
+    font-family: 'Georgia', serif;
+    font-size: 1rem;
+    color: #555;
+}
+
+.things-section-compact .thing-bullet {
+    color: #ff6b6b;
+    font-size: 1.2rem;
+    margin-right: 0.75rem;
+    font-weight: bold;
+}
+
+.things-section-compact .mission-text {
+    background: rgba(255, 255, 255, 0.8);
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-top: 1.5rem;
+}
+
+.things-section-compact .mission-text p {
+    font-family: 'Georgia', serif;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #444;
+    margin: 0;
+    font-style: italic;
+    text-align: center;
 }
 
 .candidate-info {
@@ -388,8 +639,42 @@ html, body {
         right: -10px;
     }
 
-    .name-title {
-        font-size: clamp(2.5rem, 10vw, 4rem);
+    .name-title-inline {
+        font-size: clamp(1rem, 4vw, 1.6rem);
+        line-height: 1.4;
+        white-space: normal;
+    }
+
+    .magazine-container-centered {
+        padding: 2rem 1rem;
+        gap: 2rem;
+    }
+
+    .campaign-photo-container {
+        gap: 1rem;
+    }
+
+    .campaign-photo-1,
+    .campaign-photo-2 {
+        width: 200px;
+        height: 240px;
+    }
+
+    .campaign-photo-1 img,
+    .campaign-photo-2 img {
+        height: 200px;
+    }
+
+    .campaign-text-blocks {
+        gap: 1rem;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .text-block {
+        min-width: 280px;
+        max-width: 100%;
+        padding: 1.5rem;
     }
 
     .things-section {
@@ -471,84 +756,7 @@ html, body {
     font-size: 1.2rem;
 }
 
-/* Page 3: About Tanay */
-.about-container {
-    min-height: 100vh;
-    background: white;
-    color: #333;
-    padding: 3rem 2rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.about-title {
-    font-size: clamp(2rem, 8vw, 3rem);
-    font-weight: 700;
-    text-align: center;
-    margin-bottom: 3rem;
-    background: linear-gradient(45deg, #667eea, #764ba2);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-.credentials {
-    max-width: 800px;
-    margin: 0 auto 3rem;
-}
-
-.credential-item {
-    display: flex;
-    align-items: flex-start;
-    margin-bottom: 2rem;
-    padding: 1.5rem;
-    background: #f8f9fa;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all 0.6s ease;
-}
-
-.credential-icon {
-    font-size: 2rem;
-    margin-right: 1.5rem;
-    flex-shrink: 0;
-}
-
-.credential-content h3 {
-    font-size: 1.3rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    color: #333;
-}
-
-.credential-content p {
-    color: #666;
-    line-height: 1.5;
-}
-
-.vision {
-    max-width: 600px;
-    margin: 0 auto;
-    text-align: center;
-}
-
-.vision h2 {
-    font-size: 2rem;
-    font-weight: 600;
-    margin-bottom: 1rem;
-    color: #667eea;
-}
-
-.vision p {
-    font-size: 1.2rem;
-    line-height: 1.6;
-    color: #555;
-}
-
-/* Page 4: Vote Decision */
+/* Page 3: Vote Decision */
 .vote-container {
     min-height: 100vh;
     background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
@@ -558,6 +766,15 @@ html, body {
     flex-direction: column;
     justify-content: center;
     text-align: center;
+}
+
+.vote-surprise {
+    font-size: clamp(1rem, 4vw, 1.3rem);
+    font-weight: 400;
+    margin-bottom: 1rem;
+    opacity: 0.9;
+    font-style: italic;
+    color: rgba(255, 255, 255, 0.8);
 }
 
 .vote-title {
@@ -635,7 +852,7 @@ html, body {
     margin-bottom: 0.5rem;
 }
 
-/* Page 5: Share Page */
+/* Page 4: Share Page */
 .share-container {
     min-height: 100vh;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -877,21 +1094,11 @@ html, body {
         padding: 1.5rem;
     }
 
-    .credential-item {
-        flex-direction: column;
-        text-align: center;
-    }
-
-    .credential-icon {
-        margin-right: 0;
-        margin-bottom: 1rem;
-    }
 }
 
 @media (max-width: 480px) {
     .curiosity-container,
     .match-section,
-    .about-container,
     .vote-container,
     .share-container {
         padding: 2rem 1rem;
@@ -910,7 +1117,6 @@ html, body {
 /* Landscape orientation adjustments */
 @media (orientation: landscape) and (max-height: 600px) {
     .match-section,
-    .about-container,
     .vote-container,
     .share-container {
         min-height: auto;
