@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alumni Match - Tanay Mehta for VP</title>
+    <meta name="description" content="Discover why Tanay Mehta is your perfect match for VP of Alumni Relations">
+
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#ff6b6b">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Alumni Match">
+
+    <!-- PWA Icons -->
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- Preload critical resources -->
+    <link rel="preload" href="js/app.js" as="script">
+</head>
+<body>
+    <div id="app">
+        <!-- Page 1: Curiosity Hook -->
+        <div class="page active" id="page1" data-page="1">
+            <div class="page-content">
+                <div class="curiosity-container">
+                    <h1 class="curiosity-title">Curious to know what Babson has in store for you next year?</h1>
+                    <p class="curiosity-subtitle">Swipe right to find out...</p>
+                    <div class="hint">
+                        <p>Your next connection is one swipe away</p>
+                        <div class="swipe-indicator">
+                            <span class="arrow">→</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page 2: The Match -->
+        <div class="page" id="page2" data-page="2">
+            <!-- Full-screen Match Overlay -->
+            <div class="match-overlay" id="matchOverlay">
+                <div class="match-animation">
+                    <h1 class="match-title">It's a Match!</h1>
+                    <div class="confetti-container"></div>
+                </div>
+            </div>
+
+            <!-- Main Content (hidden initially) -->
+            <div class="page-content" id="matchContent">
+                <!-- Section 1: Introduction -->
+                <div class="match-section intro-section">
+                    <div class="profile-container">
+                        <div class="profile-image">
+                            <img src="images/tanay-profile.jpg" alt="Tanay Mehta" onerror="this.src='https://via.placeholder.com/300x300/ff6b6b/ffffff?text=Tanay'">
+                        </div>
+                        <div class="intro-text">
+                            <p>Hi! I'm Tanay, and you and I will have a great year together. With me as your VP of Alumni Relations, I will do more than just pass an Excel database to you. I will create insights with you, share how you can connect to the right people, and unlock opportunities you never knew existed.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 2: Video -->
+                <div class="match-section video-section">
+                    <div class="video-container">
+                        <video
+                            id="introVideo"
+                            muted
+                            playsinline
+                            poster="images/video-poster.jpg"
+                            controls>
+                            <source src="videos/tanay-intro.mp4" type="video/mp4">
+                            <source src="videos/tanay-intro.webm" type="video/webm">
+                            Your browser does not support the video tag.
+                        </video>
+                        <div class="video-overlay">
+                            <button class="play-button" id="playButton">
+                                <span class="play-icon">▶</span>
+                                <span class="play-text">Tap to play</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page 3: About Tanay -->
+        <div class="page" id="page3" data-page="3">
+            <div class="page-content">
+                <div class="about-container">
+                    <h1 class="about-title">Meet Your Match</h1>
+
+                    <div class="credentials">
+                        <div class="credential-item">
+                            <div class="credential-icon">🎓</div>
+                            <div class="credential-content">
+                                <h3>Academic Excellence</h3>
+                                <p>Dean's List student with proven leadership in student organizations</p>
+                            </div>
+                        </div>
+
+                        <div class="credential-item">
+                            <div class="credential-icon">🤝</div>
+                            <div class="credential-content">
+                                <h3>Network Builder</h3>
+                                <p>Connected 200+ students with mentors and internship opportunities</p>
+                            </div>
+                        </div>
+
+                        <div class="credential-item">
+                            <div class="credential-icon">💡</div>
+                            <div class="credential-content">
+                                <h3>Innovation Focus</h3>
+                                <p>Created data-driven matching system for student-alumni connections</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="vision">
+                        <h2>My Vision</h2>
+                        <p>Transform alumni relations from a static database into a dynamic, personalized network that creates meaningful connections and unlocks hidden opportunities for every student.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page 4: Vote Decision -->
+        <div class="page" id="page4" data-page="4">
+            <div class="page-content">
+                <div class="vote-container">
+                    <h1 class="vote-title">So, I'm counting on you!</h1>
+
+                    <div class="vote-prompt">
+                        <p>You've seen the connection. You know the vision. Now it's time to make your choice.</p>
+                    </div>
+
+                    <div class="vote-actions">
+                        <button class="vote-button primary" id="voteYes">
+                            <span class="vote-emoji">✅</span>
+                            <span class="vote-text">Of course yes, my vote is yours!</span>
+                        </button>
+
+                        <button class="vote-button secondary" id="voteNo">
+                            <span class="vote-emoji">🤔</span>
+                            <span class="vote-text">Naah! I'll see tomorrow</span>
+                        </button>
+                    </div>
+
+                    <div class="vote-info">
+                        <p>Election Day: September 24th, 2025</p>
+                        <p>Your vote matters. Your network depends on it.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page 5: Share Page -->
+        <div class="page" id="page5" data-page="5">
+            <div class="page-content">
+                <div class="share-container">
+                    <h1 class="share-title">Spread the Connection</h1>
+
+                    <div class="share-message">
+                        <p>Found your perfect match? Help others discover theirs too!</p>
+                    </div>
+
+                    <div class="share-buttons">
+                        <button class="share-button whatsapp" data-platform="whatsapp">
+                            <span class="share-icon">📱</span>
+                            <span class="share-text">Share via WhatsApp</span>
+                        </button>
+                    </div>
+
+                    <div class="vote-chart-container">
+                        <h3 class="chart-title">Votes Committed</h3>
+                        <div class="bar-chart">
+                            <div class="bar-item">
+                                <div class="bar-label">Yes</div>
+                                <div class="bar-wrapper">
+                                    <div class="bar bar-yes" id="yes-bar">
+                                        <span class="bar-value" id="yes-count">0</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bar-item">
+                                <div class="bar-label">No</div>
+                                <div class="bar-wrapper">
+                                    <div class="bar bar-no" id="no-bar">
+                                        <span class="bar-value" id="no-count">0</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="thank-you">
+                        <p>Thank you for being part of the Alumni Match movement!</p>
+                        <button class="restart-button" id="restartApp">
+                            <span>Experience Again</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Indicators -->
+    <div class="nav-indicators">
+        <div class="indicator active" data-page="1"></div>
+        <div class="indicator" data-page="2"></div>
+        <div class="indicator" data-page="3"></div>
+        <div class="indicator" data-page="4"></div>
+        <div class="indicator" data-page="5"></div>
+    </div>
+
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-content">
+            <div class="loading-heart">🗳️</div>
+            <p>Finding your perfect match...</p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/app.js"></script>
+</body>
+</html>
