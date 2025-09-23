@@ -28,10 +28,10 @@
         <div class="page active" id="page1" data-page="1">
             <div class="page-content">
                 <div class="curiosity-container">
-                    <h1 class="curiosity-title">Curious to know what Babson has in store for you next year?</h1>
+                    <h1 class="curiosity-title">Curious to know what Babson has in store for you this year?</h1>
                     <p class="curiosity-subtitle">Swipe right to find out...</p>
                     <div class="hint">
-                        <p>Your next connection is one swipe away</p>
+                        <p>Your next VP of Alumni Relations is one swipe away</p>
                         <div class="swipe-indicator">
                             <span class="arrow">→</span>
                         </div>
@@ -40,26 +40,81 @@
             </div>
         </div>
 
-        <!-- Page 2: The Match -->
+        <!-- Page 2: Magazine Profile -->
         <div class="page" id="page2" data-page="2">
-            <!-- Full-screen Match Overlay -->
-            <div class="match-overlay" id="matchOverlay">
-                <div class="match-animation">
-                    <h1 class="match-title">It's a Match!</h1>
-                    <div class="confetti-container"></div>
-                </div>
-            </div>
-
-            <!-- Main Content (hidden initially) -->
+            <!-- Magazine Content -->
             <div class="page-content" id="matchContent">
-                <!-- Section 1: Introduction -->
-                <div class="match-section intro-section">
-                    <div class="profile-container">
-                        <div class="profile-image">
-                            <img src="images/tanay-profile.jpg" alt="Tanay Mehta" onerror="this.src='https://via.placeholder.com/300x300/ff6b6b/ffffff?text=Tanay'">
+                <!-- Section 1: Magazine-style Hero -->
+                <div class="match-section magazine-hero">
+                    <div class="magazine-container">
+                        <!-- Left side: Text content -->
+                        <div class="magazine-text">
+                            <div class="greeting">Hello, I'm</div>
+                            <h1 class="name-title">TANAY</h1>
+                            <div class="candidate-info">
+                                <p class="birth-info">Birthday: January 15, 2003</p>
+                                <p class="zodiac-info">Zodiac Sign: Capricorn</p>
+                                <p class="location-info">City: Boston</p>
+                            </div>
+
+                            <div class="about-section">
+                                <h2 class="section-title">ABOUT ME</h2>
+                                <p class="about-text">I'm passionate about connecting students with alumni to unlock incredible opportunities. When I'm not busy with work, I love spending time building meaningful relationships that last. Nothing brings me more satisfaction than seeing someone succeed through connections I helped facilitate.</p>
+                            </div>
                         </div>
-                        <div class="intro-text">
-                            <p>Hi! I'm Tanay, and you and I will have a great year together. With me as your VP of Alumni Relations, I will do more than just pass an Excel database to you. I will create insights with you, share how you can connect to the right people, and unlock opportunities you never knew existed.</p>
+
+                        <!-- Right side: Photos -->
+                        <div class="magazine-photos">
+                            <div class="polaroid main-photo" data-rotation="2">
+                                <img src="images/tanay-profile.jpg" alt="Tanay Mehta" onerror="this.src='https://via.placeholder.com/280x320/ff6b6b/ffffff?text=TANAY'">
+                                <div class="polaroid-caption">VP Candidate 2025</div>
+                            </div>
+
+                            <div class="polaroid small-photo" data-rotation="-3">
+                                <img src="images/tanay-candid.jpg" alt="Tanay networking" onerror="this.src='https://via.placeholder.com/200x240/4ecdc4/ffffff?text=NETWORKING'">
+                                <div class="polaroid-caption">Building connections</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 2: Things I Love -->
+                <div class="match-section things-section">
+                    <div class="things-container">
+                        <h2 class="things-title">THINGS I LOVE</h2>
+
+                        <div class="things-grid">
+                            <div class="thing-item">
+                                <div class="thing-bullet">•</div>
+                                <span>My dog Charlie</span>
+                            </div>
+                            <div class="thing-item">
+                                <div class="thing-bullet">•</div>
+                                <span>Connecting with amazing people</span>
+                            </div>
+                            <div class="thing-item">
+                                <div class="thing-bullet">•</div>
+                                <span>Innovation in education</span>
+                            </div>
+                            <div class="thing-item">
+                                <div class="thing-bullet">•</div>
+                                <span>Beautiful sunsets</span>
+                            </div>
+                            <div class="thing-item">
+                                <div class="thing-bullet">•</div>
+                                <span>Weekend getaways</span>
+                            </div>
+                        </div>
+
+                        <div class="mission-text">
+                            <p>Traveling fuels my creativity, while connections drive my passion. I live for meaningful conversations that spark innovation. For me, it's all about bringing people together in the everyday moments and taking time to truly listen to what matters most.</p>
+                        </div>
+
+                        <!-- Additional decorative photos -->
+                        <div class="decorative-photos">
+                            <div class="polaroid tiny-photo" data-rotation="5">
+                                <img src="images/tanay-hobby.jpg" alt="Tanay hobby" onerror="this.src='https://via.placeholder.com/150x180/ffa726/ffffff?text=HOBBY'">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -132,7 +187,7 @@
         <div class="page" id="page4" data-page="4">
             <div class="page-content">
                 <div class="vote-container">
-                    <h1 class="vote-title">So, I'm counting on you!</h1>
+                    <h1 class="vote-title">Can I count on your vote?</h1>
 
                     <div class="vote-prompt">
                         <p>You've seen the connection. You know the vision. Now it's time to make your choice.</p>
@@ -141,7 +196,7 @@
                     <div class="vote-actions">
                         <button class="vote-button primary" id="voteYes">
                             <span class="vote-emoji">✅</span>
-                            <span class="vote-text">Of course yes, my vote is yours!</span>
+                            <span class="vote-text">Hell YEAHH!</span>
                         </button>
 
                         <button class="vote-button secondary" id="voteNo">
@@ -221,7 +276,7 @@
     <div class="loading-screen" id="loadingScreen">
         <div class="loading-content">
             <div class="loading-heart">🗳️</div>
-            <p>Finding your perfect match...</p>
+            <p>Finding the perfect <strong>VP of Alumni Relations</strong> for you...</p>
         </div>
     </div>
 

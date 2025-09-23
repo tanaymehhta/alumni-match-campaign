@@ -91,6 +91,25 @@ class AlumniMatch {
 
             observer.observe(videoSection);
         }
+
+        // Observe reason cards for scroll-triggered animations
+        const reasonCards = document.querySelectorAll('.reason-card');
+        if (reasonCards.length > 0) {
+            const cardObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const delay = parseFloat(entry.target.dataset.animationDelay) || 0;
+                        setTimeout(() => {
+                            entry.target.classList.add('animate');
+                        }, delay * 1000);
+                    }
+                });
+            }, { threshold: 0.2 });
+
+            reasonCards.forEach(card => {
+                cardObserver.observe(card);
+            });
+        }
     }
 
     handleTouchStart(e) {
@@ -247,39 +266,31 @@ class AlumniMatch {
     }
 
     animateMatch() {
-        const matchOverlay = document.getElementById('matchOverlay');
-        const matchContent = document.getElementById('matchContent');
-        const confetti = document.querySelector('.confetti-container');
+        // Magazine content is now immediately visible
+        // Just trigger the staggered animations for magazine elements
+        this.animateMagazineContent();
+    }
 
-        // Reset overlay state
-        if (matchOverlay) {
-            matchOverlay.classList.remove('fade-out');
-            matchOverlay.style.opacity = '1';
-            matchOverlay.style.transform = 'scale(1)';
-        }
+    animateMagazineContent() {
+        // Trigger animations for magazine elements
+        const greeting = document.querySelector('.greeting');
+        const nameTitle = document.querySelector('.name-title');
+        const candidateInfo = document.querySelector('.candidate-info');
+        const aboutSection = document.querySelector('.about-section');
+        const magazinePhotos = document.querySelector('.magazine-photos');
 
-        // Reset content state
-        if (matchContent) {
-            matchContent.classList.remove('show');
-        }
-
-        // Create confetti animation
-        if (confetti) {
-            this.createConfetti();
-        }
-
-        // After 3 seconds, fade out the overlay and show the content
-        setTimeout(() => {
-            if (matchOverlay) {
-                console.log('Adding fade-out class');
-                matchOverlay.classList.add('fade-out');
+        // Reset and animate elements
+        [greeting, nameTitle, candidateInfo, aboutSection, magazinePhotos].forEach((el, index) => {
+            if (el) {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(30px)';
+                setTimeout(() => {
+                    el.style.transition = 'all 0.8s ease-out';
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                }, index * 200);
             }
-
-            if (matchContent) {
-                console.log('Adding show class to content');
-                matchContent.classList.add('show');
-            }
-        }, 3000);
+        });
     }
 
     animateCredentials() {
@@ -312,23 +323,6 @@ class AlumniMatch {
         });
     }
 
-    createConfetti() {
-        const container = document.querySelector('.confetti-container');
-        if (!container) return;
-
-        for (let i = 0; i < 50; i++) {
-            const confetti = document.createElement('div');
-            confetti.className = 'confetti-piece';
-            confetti.style.left = Math.random() * 100 + '%';
-            confetti.style.backgroundColor = this.getRandomColor();
-            confetti.style.animationDelay = Math.random() * 2 + 's';
-            container.appendChild(confetti);
-
-            setTimeout(() => {
-                confetti.remove();
-            }, 3000);
-        }
-    }
 
     getRandomColor() {
         const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#ffa726', '#ab47bc'];
