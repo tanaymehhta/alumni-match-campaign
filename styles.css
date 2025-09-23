@@ -241,10 +241,10 @@ html, body {
 .campaign-photo-1,
 .campaign-photo-2 {
     position: relative !important;
-    width: 250px;
-    height: 300px;
+    width: 350px;
+    height: 420px;
     background: white;
-    padding: 15px 15px 40px 15px;
+    padding: 20px 20px 50px 20px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
     transition: all 0.3s ease;
     cursor: pointer;
@@ -271,7 +271,7 @@ html, body {
 .campaign-photo-1 img,
 .campaign-photo-2 img {
     width: 100%;
-    height: 260px;
+    height: 350px;
     object-fit: cover;
     display: block;
 }
@@ -279,23 +279,41 @@ html, body {
 /* Campaign Text Blocks */
 .campaign-text-blocks {
     display: flex;
-    gap: 2rem;
     justify-content: center;
-    flex-wrap: wrap;
-    max-width: 700px;
+    max-width: 800px;
     width: 100%;
 }
 
 .text-block {
-    background: white;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.7) 100%);
     padding: 2rem;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    flex: 1;
-    min-width: 280px;
-    max-width: 320px;
+    border-radius: 24px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px;
     opacity: 0;
     animation: slideUpFade 0.8s ease-out 0.8s forwards;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    position: relative;
+    overflow: hidden;
+    transform: translateY(0);
+    transition: all 0.3s ease;
+}
+
+.text-block::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
+}
+
+.text-block:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
 }
 
 .block-text {
@@ -656,23 +674,20 @@ html, body {
 
     .campaign-photo-1,
     .campaign-photo-2 {
-        width: 200px;
-        height: 240px;
+        width: 280px;
+        height: 340px;
     }
 
     .campaign-photo-1 img,
     .campaign-photo-2 img {
-        height: 200px;
+        height: 280px;
     }
 
     .campaign-text-blocks {
-        gap: 1rem;
-        flex-direction: column;
         align-items: center;
     }
 
     .text-block {
-        min-width: 280px;
         max-width: 100%;
         padding: 1.5rem;
     }
