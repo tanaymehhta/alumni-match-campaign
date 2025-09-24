@@ -292,11 +292,8 @@ class AlumniMatch {
                 this.updatePageIndicators();
                 this.triggerPageAnimations(pageNumber);
 
-                // Update session page views
-                if (this.voteData.sessions[this.sessionId]) {
-                    this.voteData.sessions[this.sessionId].pageViews++;
-                    this.saveVoteData();
-                }
+                // Update session page views (handled by Supabase now)
+                // Skip this in the new system as it's handled by session tracking
 
                 setTimeout(() => {
                     this.isTransitioning = false;
@@ -813,27 +810,62 @@ class AlumniMatch {
         }
     }
 
-    exportInteractionLog() {
-        const exportData = {
-            exportedAt: Date.now(),
-            totalSessions: Object.keys(this.voteData.sessions).length,
-            totalInteractions: this.voteData.interactionLog.length,
-            currentCounts: this.voteData.voteCounts,
-            sessions: this.voteData.sessions,
-            interactions: this.voteData.interactionLog,
-            buffer: this.voteData.tempBuffer
-        };
+    async exportInteractionLog() {
+        try {
+            let exportData;
 
-        const dataStr = JSON.stringify(exportData, null, 2);
-        const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            if (this.useFallbackMode) {
+                // Fallback export with localStorage data
+                exportData = {
+                    exportedAt: Date.now(),
+                    mode: 'localStorage_fallback',
+                    currentCounts: this.voteCounts,
+                    stats: this.stats
+                };
+            } else {
+                // Full Supabase export
+                const sessionInfo = await this.getSessionInfo();
 
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(dataBlob);
-        link.download = `alumni_match_interactions_${Date.now()}.json`;
-        link.click();
+                const { data: sessions } = await this.supabase
+                    .from('voting_sessions')
+                    .select('*');
 
-        this.logInteraction('data_exported');
-        console.log('Interaction data exported');
+                const { data: interactions } = await this.supabase
+                    .from('voting_interactions')
+                    .select('*')
+                    .order('created_at', { ascending: false });
+
+                const { data: buffer } = await this.supabase
+                    .from('vote_buffer')
+                    .select('*');
+
+                exportData = {
+                    exportedAt: Date.now(),
+                    mode: 'supabase',
+                    totalSessions: sessionInfo.totalSessions,
+                    totalInteractions: sessionInfo.totalInteractions,
+                    currentCounts: this.voteCounts,
+                    sessions: sessions,
+                    interactions: interactions,
+                    buffer: buffer
+                };
+            }
+
+            const dataStr = JSON.stringify(exportData, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(dataBlob);
+            link.download = `alumni_match_interactions_${Date.now()}.json`;
+            link.click();
+
+            if (!this.useFallbackMode) {
+                await this.logInteraction('data_exported');
+            }
+            console.log('Interaction data exported');
+        } catch (error) {
+            console.error('Error exporting data:', error);
+        }
     }
 
     showVoteStatus(message, type = 'info') {
@@ -1136,15 +1168,5 @@ document.addEventListener('DOMContentLoaded', () => {
     window.alumniMatch = new AlumniMatch();
 });
 
-// Register service worker for PWA
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js')
-            .then(registration => {
-                console.log('SW registered: ', registration);
-            })
-            .catch(registrationError => {
-                console.log('SW registration failed: ', registrationError);
-            });
-    });
-}
+// Service worker registration disabled to prevent 404 errors
+// Can be re-enabled when sw.js file is created
