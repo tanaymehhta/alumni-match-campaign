@@ -29,6 +29,10 @@ class AlumniMatch {
         // Fallback mode flag
         this.useFallbackMode = false;
 
+        // Live polling for vote updates
+        this.votePollingInterval = null;
+        this.pollingIntervalTime = 3000; // Poll every 3 seconds
+
         this.init();
     }
 
@@ -53,6 +57,11 @@ class AlumniMatch {
             this.useFallbackMode = true;
             this.loadStatsFromLocalStorage();
         }
+
+        // Cleanup polling on page unload
+        window.addEventListener('beforeunload', () => {
+            this.stopVotePolling();
+        });
     }
 
     setupEventListeners() {
@@ -1170,6 +1179,11 @@ class AlumniMatch {
 
     // Update UI when page changes
     triggerPageAnimations(pageNumber) {
+        // Stop polling when leaving results page
+        if (pageNumber !== 4) {
+            this.stopVotePolling();
+        }
+
         switch(pageNumber) {
             case 2:
                 this.animateMatch();
@@ -1179,10 +1193,96 @@ class AlumniMatch {
                 break;
             case 4:
                 this.animateSharePage();
+                // Start live polling on results page
+                this.startVotePolling();
                 if (document.body.classList.contains('admin-mode')) {
                     this.updateAdminDashboard();
                 }
                 break;
+        }
+    }
+
+    // Live vote polling methods
+    startVotePolling() {
+        if (this.useFallbackMode || this.votePollingInterval) return;
+
+        console.log('Starting live vote polling...');
+        this.votePollingInterval = setInterval(async () => {
+            try {
+                await this.refreshVoteCounts();
+            } catch (error) {
+                console.error('Error in vote polling:', error);
+            }
+        }, this.pollingIntervalTime);
+
+        // Show live indicator
+        const liveIndicator = document.getElementById('liveIndicator');
+        if (liveIndicator) {
+            liveIndicator.classList.add('active');
+        }
+
+        // Also refresh immediately
+        this.refreshVoteCounts();
+    }
+
+    stopVotePolling() {
+        if (this.votePollingInterval) {
+            clearInterval(this.votePollingInterval);
+            this.votePollingInterval = null;
+            console.log('Stopped live vote polling');
+
+            // Hide live indicator
+            const liveIndicator = document.getElementById('liveIndicator');
+            if (liveIndicator) {
+                liveIndicator.classList.remove('active');
+            }
+        }
+    }
+
+    async refreshVoteCounts() {
+        if (this.useFallbackMode) return;
+
+        try {
+            const previousCounts = { ...this.voteCounts };
+
+            // Get fresh vote counts from database
+            const { data: voteCounts, error } = await this.supabase
+                .from('vote_counts')
+                .select('yes_votes, no_votes')
+                .eq('id', 1)
+                .single();
+
+            if (error) {
+                console.error('Error refreshing vote counts:', error);
+                return;
+            }
+
+            // Update counts if they changed
+            const newCounts = {
+                yes: voteCounts.yes_votes || 0,
+                no: voteCounts.no_votes || 0
+            };
+
+            if (newCounts.yes !== previousCounts.yes || newCounts.no !== previousCounts.no) {
+                this.voteCounts = newCounts;
+                this.stats.votesYes = newCounts.yes;
+                this.stats.votesNo = newCounts.no;
+
+                // Update UI with new counts
+                this.updateStatsDisplay();
+
+                console.log('Vote counts updated:', newCounts);
+
+                // Log the live update for admin tracking
+                if (!this.useFallbackMode) {
+                    this.logInteraction('live_vote_update', {
+                        previousCounts: previousCounts,
+                        newCounts: newCounts
+                    });
+                }
+            }
+        } catch (error) {
+            console.error('Error in refreshVoteCounts:', error);
         }
     }
 }

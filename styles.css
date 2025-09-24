@@ -276,6 +276,54 @@ html, body {
     transform: translateY(-50%) translateX(20px);
 }
 
+/* Live Vote Indicator */
+.chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.live-indicator {
+    display: none;
+    align-items: center;
+    gap: 6px;
+    background: rgba(76, 175, 80, 0.1);
+    padding: 4px 8px;
+    border-radius: 12px;
+    border: 1px solid rgba(76, 175, 80, 0.3);
+}
+
+.live-indicator.active {
+    display: flex;
+}
+
+.live-dot {
+    width: 8px;
+    height: 8px;
+    background: #4CAF50;
+    border-radius: 50%;
+    animation: livePulse 1.5s ease-in-out infinite;
+}
+
+.live-text {
+    font-size: 10px;
+    font-weight: 600;
+    color: #4CAF50;
+    letter-spacing: 0.5px;
+}
+
+@keyframes livePulse {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.6;
+        transform: scale(0.8);
+    }
+}
+
 /* Page 1: Curiosity Hook */
 .curiosity-container {
     height: 100vh;
