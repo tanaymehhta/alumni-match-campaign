@@ -1207,6 +1207,10 @@ class AlumniMatch {
         if (this.useFallbackMode || this.votePollingInterval) return;
 
         console.log('Starting live vote polling...');
+
+        // Update UI immediately with already loaded data
+        this.updateStatsDisplay();
+
         this.votePollingInterval = setInterval(async () => {
             try {
                 await this.refreshVoteCounts();
