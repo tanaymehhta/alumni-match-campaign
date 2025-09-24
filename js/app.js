@@ -26,19 +26,33 @@ class AlumniMatch {
         // Current vote counts (loaded from Supabase)
         this.voteCounts = { yes: 0, no: 0 };
 
+        // Fallback mode flag
+        this.useFallbackMode = false;
+
         this.init();
     }
 
     async init() {
-        await this.loadVoteData();
-        await this.initializeSession();
-        this.startBufferProcessor();
+        // Setup UI first so app works even if Supabase fails
         this.setupEventListeners();
         this.setupIntersectionObserver();
         this.hideLoadingScreen();
         this.updatePageIndicators();
         this.setupAdminShortcuts();
-        await this.logInteraction('app_initialized');
+
+        // Initialize Supabase features in background
+        try {
+            await this.loadVoteData();
+            await this.initializeSession();
+            this.startBufferProcessor();
+            await this.logInteraction('app_initialized');
+            console.log('Supabase integration loaded successfully');
+        } catch (error) {
+            console.error('Supabase initialization failed, using fallback mode:', error);
+            // Fallback to localStorage mode
+            this.useFallbackMode = true;
+            this.loadStatsFromLocalStorage();
+        }
     }
 
     setupEventListeners() {
@@ -255,11 +269,13 @@ class AlumniMatch {
         this.isTransitioning = true;
         const previousPage = this.currentPage;
 
-        // Log page navigation
-        this.logInteraction('page_navigation', {
-            from: previousPage,
-            to: pageNumber
-        });
+        // Log page navigation (only if Supabase is working)
+        if (!this.useFallbackMode) {
+            this.logInteraction('page_navigation', {
+                from: previousPage,
+                to: pageNumber
+            });
+        }
 
         // Hide current page
         const currentPageEl = document.querySelector('.page.active');
@@ -385,48 +401,60 @@ class AlumniMatch {
     }
 
     async handleVote(isYes) {
-        const voteValue = isYes ? 'yes' : 'no';
-        const userStatus = await this.getUserVoteStatus();
+        // Use fallback if Supabase failed
+        if (this.useFallbackMode) {
+            this.handleVoteFallback(isYes);
+            return;
+        }
 
-        // Check if user already voted
-        if (userStatus.hasVoted) {
-            if (userStatus.currentVote === voteValue) {
-                // Same vote - show already voted message
-                this.showVoteStatus(`You already voted "${isYes ? 'Hell YEAHH!' : 'Naah! I\'ll see tomorrow'}"!`, 'info');
-                setTimeout(() => this.goToPage(4), 1000);
-                return;
+        try {
+            const voteValue = isYes ? 'yes' : 'no';
+            const userStatus = await this.getUserVoteStatus();
+
+            // Check if user already voted
+            if (userStatus.hasVoted) {
+                if (userStatus.currentVote === voteValue) {
+                    // Same vote - show already voted message
+                    this.showVoteStatus(`You already voted "${isYes ? 'Hell YEAHH!' : 'Naah! I\'ll see tomorrow'}"!`, 'info');
+                    setTimeout(() => this.goToPage(4), 1000);
+                    return;
+                } else {
+                    // Different vote - confirm change
+                    const oldVoteText = userStatus.currentVote === 'yes' ? 'Hell YEAHH!' : 'Naah! I\'ll see tomorrow';
+                    const newVoteText = isYes ? 'Hell YEAHH!' : 'Naah! I\'ll see tomorrow';
+                    this.showVoteStatus(`Changed from "${oldVoteText}" to "${newVoteText}"!`, 'change');
+                    await this.logInteraction('vote_changed', {
+                        from: userStatus.currentVote,
+                        to: voteValue
+                    });
+                }
             } else {
-                // Different vote - confirm change
-                const oldVoteText = userStatus.currentVote === 'yes' ? 'Hell YEAHH!' : 'Naah! I\'ll see tomorrow';
-                const newVoteText = isYes ? 'Hell YEAHH!' : 'Naah! I\'ll see tomorrow';
-                this.showVoteStatus(`Changed from "${oldVoteText}" to "${newVoteText}"!`, 'change');
-                await this.logInteraction('vote_changed', {
-                    from: userStatus.currentVote,
-                    to: voteValue
-                });
+                // First vote
+                this.showVoteStatus(`You voted "${isYes ? 'Hell YEAHH!' : 'Naah! I\'ll see tomorrow'}"!`, 'success');
+                await this.logInteraction('first_vote', { vote: voteValue });
             }
-        } else {
-            // First vote
-            this.showVoteStatus(`You voted "${isYes ? 'Hell YEAHH!' : 'Naah! I\'ll see tomorrow'}"!`, 'success');
-            await this.logInteraction('first_vote', { vote: voteValue });
-        }
 
-        // Add vote to buffer (not directly to counts)
-        await this.addToVoteBuffer(voteValue);
+            // Add vote to buffer (not directly to counts)
+            await this.addToVoteBuffer(voteValue);
 
-        // Button animation
-        const button = isYes ? document.getElementById('voteYes') : document.getElementById('voteNo');
-        if (button) {
-            button.style.transform = 'scale(0.95)';
+            // Button animation
+            const button = isYes ? document.getElementById('voteYes') : document.getElementById('voteNo');
+            if (button) {
+                button.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    button.style.transform = 'scale(1)';
+                }, 150);
+            }
+
+            // Navigate to share page after delay
             setTimeout(() => {
-                button.style.transform = 'scale(1)';
-            }, 150);
+                this.goToPage(4);
+            }, 1500);
+        } catch (error) {
+            console.error('Error handling vote, falling back to localStorage:', error);
+            this.useFallbackMode = true;
+            this.handleVoteFallback(isYes);
         }
-
-        // Navigate to share page after delay
-        setTimeout(() => {
-            this.goToPage(4);
-        }, 1500);
     }
 
     handleShare(e) {
@@ -980,7 +1008,53 @@ class AlumniMatch {
             this.updateAdminDashboard();
         }
 
-        this.logInteraction('admin_dashboard_toggled', { visible: !isVisible });
+        if (!this.useFallbackMode) {
+            this.logInteraction('admin_dashboard_toggled', { visible: !isVisible });
+        }
+    }
+
+    // Fallback localStorage methods
+    loadStatsFromLocalStorage() {
+        const savedStats = localStorage.getItem('alumniMatchStats');
+        if (savedStats) {
+            this.stats = JSON.parse(savedStats);
+            this.voteCounts.yes = this.stats.votesYes;
+            this.voteCounts.no = this.stats.votesNo;
+        }
+        this.updateStatsDisplay();
+    }
+
+    saveStatsToLocalStorage() {
+        localStorage.setItem('alumniMatchStats', JSON.stringify(this.stats));
+    }
+
+    handleVoteFallback(isYes) {
+        if (isYes) {
+            this.stats.votesYes++;
+            this.voteCounts.yes++;
+        } else {
+            this.stats.votesNo++;
+            this.voteCounts.no++;
+        }
+
+        this.saveStatsToLocalStorage();
+        this.updateStatsDisplay();
+
+        this.showVoteStatus(`You voted "${isYes ? 'Hell YEAHH!' : 'Naah! I\'ll see tomorrow'}"!`, 'success');
+
+        // Button animation
+        const button = isYes ? document.getElementById('voteYes') : document.getElementById('voteNo');
+        if (button) {
+            button.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                button.style.transform = 'scale(1)';
+            }, 150);
+        }
+
+        // Navigate to share page after delay
+        setTimeout(() => {
+            this.goToPage(4);
+        }, 1500);
     }
 
     async updateAdminDashboard() {
