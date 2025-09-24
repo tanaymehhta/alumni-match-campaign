@@ -116,6 +116,14 @@ class AlumniMatch {
                 this.goToPage(page);
             });
         });
+
+        // Navigation arrow
+        const navArrow = document.getElementById('navArrow');
+        if (navArrow) {
+            navArrow.addEventListener('click', () => {
+                this.goToNextPage();
+            });
+        }
     }
 
     setupIntersectionObserver() {
@@ -261,6 +269,12 @@ class AlumniMatch {
         }
     }
 
+    goToNextPage() {
+        if (this.currentPage < this.totalPages && !this.isTransitioning) {
+            this.goToPage(this.currentPage + 1);
+        }
+    }
+
     goToPage(pageNumber) {
         if (pageNumber < 1 || pageNumber > this.totalPages || this.isTransitioning) {
             return;
@@ -367,6 +381,16 @@ class AlumniMatch {
                 indicator.classList.remove('active');
             }
         });
+
+        // Update navigation arrow visibility
+        const navArrow = document.getElementById('navArrow');
+        if (navArrow) {
+            if (this.currentPage === this.totalPages) {
+                navArrow.classList.add('hidden');
+            } else {
+                navArrow.classList.remove('hidden');
+            }
+        }
     }
 
     toggleVideo() {

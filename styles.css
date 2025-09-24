@@ -230,6 +230,52 @@ html, body {
     display: block;
 }
 
+/* Navigation Arrow */
+.nav-arrow {
+    position: fixed;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 50;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 0.8;
+}
+
+.nav-arrow:hover {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
+}
+
+.nav-arrow:active {
+    transform: translateY(-50%) scale(0.95);
+}
+
+.arrow-icon {
+    font-size: 18px;
+    font-weight: bold;
+    color: #667eea;
+    user-select: none;
+}
+
+/* Hide arrow on last page */
+.nav-arrow.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-50%) translateX(20px);
+}
+
 /* Page 1: Curiosity Hook */
 .curiosity-container {
     height: 100vh;
@@ -1293,6 +1339,31 @@ html, body {
 .loading-content p {
     font-size: 1.2rem;
     opacity: 0.9;
+}
+
+/* Navigation Arrow - Mobile */
+@media (max-width: 768px) {
+    .nav-arrow {
+        right: 15px;
+        width: 45px;
+        height: 45px;
+    }
+
+    .arrow-icon {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .nav-arrow {
+        right: 10px;
+        width: 40px;
+        height: 40px;
+    }
+
+    .arrow-icon {
+        font-size: 14px;
+    }
 }
 
 /* Additional responsive fixes for vote/share pages */
