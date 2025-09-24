@@ -70,11 +70,11 @@
                         <!-- Campaign Text Block -->
                         <div class="campaign-text-blocks">
                             <div class="text-block block-1">
-                                <p class="block-text">I live to get things done before the deadline. Whenever I have a project, assignment, or internship application, I make sure to finish it early. For example, I once completed an application in less than two hours—during a lecture! (Sorry, professor.)</p>
-
+                                <p class="block-text">I like to <strong> finish my tasks before the deadline </strong>, everytime. Whether it's a office project, college assignment, or my college application, I'm always ahead of the schedule. I plan on doing this for all the requests you bring to me when reaching out to alumni.</p>
+                                <br>
                                 <p class="block-text">As VP of Alumni Relations, my job is more than just working with data and spreadsheets. I want to help you connect with alumni, get advice, and use those connections for new opportunities and support.</p>
-
-                                <p class="block-text">PS. I made this app in less than 2 hours today in class in one of the boring MBA lectures (guess which one 😉)</p>
+                                <br>
+                                <p class="block-text">P.S. <strong>I made this app in less than 2 hours today in class in one of the boring MBA lectures (guess which one 😉) </strong></p>
                             </div>
                         </div>
 
@@ -99,6 +99,7 @@
                 <div class="vote-container">
                     <p class="vote-surprise">HAHA, got you! The elections are tomorrow</p>
                     <h1 class="vote-title">Can I count on your vote?</h1>
+
 
                     <div class="vote-prompt">
                         <p>You've seen the connection. You know the vision. Now it's time to make your choice.</p>
@@ -169,6 +170,26 @@
                             <span>Experience Again</span>
                         </button>
                     </div>
+
+                    <!-- Admin Dashboard (Hidden by default) -->
+                    <div class="admin-dashboard" id="adminDashboard">
+                        <h3>📊 Admin Dashboard</h3>
+                        <div class="admin-stats" id="adminStats">
+                            <!-- Stats will be populated by JavaScript -->
+                        </div>
+                        <div>
+                            <h4>Recent Interactions:</h4>
+                            <div id="recentInteractions" style="max-height: 100px; overflow-y: auto; font-size: 10px; margin-top: 5px;">
+                                <!-- Recent interactions will be populated here -->
+                            </div>
+                        </div>
+                        <div class="admin-controls">
+                            <button class="admin-btn" onclick="window.alumniMatch.exportInteractionLog()">Export Data</button>
+                            <button class="admin-btn" onclick="console.table(window.alumniMatch.getSessionInfo())">Show Info</button>
+                            <button class="admin-btn" onclick="window.alumniMatch.clearAllData()">Clear All</button>
+                            <button class="admin-btn" id="adminToggleBtn">Hide Admin</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -189,6 +210,12 @@
             <p>Finding the perfect <strong>VP of Alumni Relations</strong> for you...</p>
         </div>
     </div>
+
+    <!-- Admin Toggle Button -->
+    <button class="admin-toggle" id="adminToggle" title="Toggle Admin Dashboard">⚙️</button>
+
+    <!-- Supabase Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <!-- Scripts -->
     <script src="js/app.js"></script>
